@@ -80,16 +80,18 @@
                 return;
             }
 
-            // Fazer requisição para baixar o vídeo usando o código Python no servidor
+            // Fazer requisição para baixar o vídeo usando XMLHttpRequest
             var xhttp = new XMLHttpRequest();
             xhttp.onreadystatechange = function() {
-                if (this.readyState == 4 && this.status == 200) {
-                    alert('Download do vídeo concluído.');
-                } else if (this.readyState == 4 && this.status != 200) {
-                    alert('Erro ao baixar o vídeo.');
+                if (this.readyState == 4) {
+                    if (this.status == 200) {
+                        alert('Download do vídeo concluído.');
+                    } else {
+                        alert('Erro ao baixar o vídeo.');
+                    }
                 }
             };
-            xhttp.open('POST', '/download', true);
+            xhttp.open('POST', 'http://localhost:5000/download', true);
             xhttp.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
             xhttp.send('videoUrl=' + encodeURIComponent(url));
         }
