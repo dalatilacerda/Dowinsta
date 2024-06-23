@@ -74,21 +74,15 @@
 
     <script>
         function downloadVideo() {
-            // Obtém o valor do campo de entrada
-            var videoUrl = document.getElementById('video-url').value;
-
-            // Verifica se o URL é válido
-            if (videoUrl.trim() === '') {
-                alert('Por favor, informe o URL do vídeo do Instagram.');
-                return;
-            }
+            // Simulação de download de um vídeo local
+            var videoUrl = 'https://www.example.com/video.mp4';
 
             // Cria um link <a> temporário
             var link = document.createElement('a');
             link.style.display = 'none';
             document.body.appendChild(link);
 
-            // Faz uma requisição GET para o URL do vídeo usando Fetch API
+            // Faz uma requisição GET para o URL do vídeo usando Fetch API (simulado)
             fetch(videoUrl)
                 .then(response => response.blob())
                 .then(blob => {
