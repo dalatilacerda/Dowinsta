@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dowinsta</title>
+    <style>
+        body {
+            background-color: black;
+            color: white;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            text-align: center;
+            flex-direction: column;
+        }
+        h1 {
+            font-size: 2.5em;
+            margin: 0;
+        }
+        p {
+            font-size: 1.2em;
+            margin-top: 1em;
+        }
+        .description {
+            font-size: 1.2em;
+            margin-top: 1em;
+            line-height: 1.5;
+        }
+        .input-container {
+            margin-top: 1.5em;
+        }
+        input[type="text"] {
+            padding: 0.5em;
+            font-size: 1em;
+            width: 80%;
+            max-width: 400px;
+        }
+        label {
+            font-size: 1.2em;
+            margin-bottom: 0.5em;
+            display: block;
+        }
+        .download-btn {
+            margin-top: 1em;
+            padding: 0.7em 1.5em;
+            background-color: white;
+            color: black;
+            border: none;
+            cursor: pointer;
+            font-size: 1.2em;
+            border-radius: 20px; /* Cantos totalmente arredondados */
+            transition: background-color 0.3s ease;
+        }
+        .download-btn:hover {
+            background-color: #f0f0f0; /* Cor de fundo leve ao passar o mouse */
+        }
+    </style>
+</head>
+<body>
+    <div>
+        <h1>Dowinsta</h1>
+        <p class="description">Olá, eu me chamo Dalati Lacerda e sou o criador deste projeto. Baixe vídeos do Instagram sem marca d'água de forma gratuita.</p>
+        <div class="input-container">
+            <label for="video-url">Cole o URL do vídeo aqui:</label>
+            <input type="text" id="video-url" name="video-url" placeholder="https://www.instagram.com/video-url">
+        </div>
+        <button class="download-btn" onclick="downloadVideo()">Fazer download</button>
+    </div>
+
+    <script>
+        function downloadVideo() {
+            // Obtém o valor do campo de entrada
+            var videoUrl = document.getElementById('video-url').value;
+
+            // Verifica se o URL é válido
+            if (videoUrl.trim() === '') {
+                alert('Por favor, informe o URL do vídeo do Instagram.');
+                return;
+            }
+
+            // Cria um link <a> temporário
+            var link = document.createElement('a');
+            link.style.display = 'none';
+            document.body.appendChild(link);
+
+            // Faz uma requisição GET para o URL do vídeo usando Fetch API
+            fetch(videoUrl)
+                .then(response => response.blob())
+                .then(blob => {
+                    // Cria um objeto URL temporário para o blob
+                    var blobUrl = window.URL.createObjectURL(blob);
+
+                    // Define os atributos do link <a>
+                    link.href = blobUrl;
+                    link.download = 'video_instagram.mp4'; // Nome do arquivo a ser baixado
+                    link.click();
+
+                    // Libera o objeto URL temporário
+                    window.URL.revokeObjectURL(blobUrl);
+                })
+                .catch(error => {
+                    console.error('Erro ao baixar o vídeo:', error);
+                    alert('Ocorreu um erro ao tentar baixar o vídeo.');
+                });
+
+            // Remove o link <a> temporário do documento
+            document.body.removeChild(link);
+        }
+    </script>
+</body>
+</html>
