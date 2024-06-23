@@ -3,95 +3,84 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dowinsta</title>
+    <title>Baixar Vídeo do Instagram</title>
     <style>
         body {
-            background-color: black;
-            color: white;
             font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
+            background-color: #f0f0f0;
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
-            text-align: center;
-            flex-direction: column;
-        }
-        h1 {
-            font-size: 2.5em;
             margin: 0;
         }
-        p {
-            font-size: 1.2em;
-            margin-top: 1em;
+        .container {
+            text-align: center;
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 80%;
+            max-width: 600px;
         }
-        .description {
-            font-size: 1.2em;
-            margin-top: 1em;
-            line-height: 1.5;
-        }
-        .input-container {
-            margin-top: 1.5em;
+        h1 {
+            color: #333;
         }
         input[type="text"] {
-            padding: 0.5em;
-            font-size: 1em;
-            width: 80%;
-            max-width: 400px;
+            width: calc(100% - 20px);
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
         }
-        label {
-            font-size: 1.2em;
-            margin-bottom: 0.5em;
-            display: block;
-        }
-        .download-btn {
-            margin-top: 1em;
-            padding: 0.7em 1.5em;
-            background-color: white;
-            color: black;
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
             border: none;
+            border-radius: 5px;
             cursor: pointer;
-            font-size: 1.2em;
-            border-radius: 20px; /* Cantos totalmente arredondados */
-            transition: background-color 0.3s ease;
+            font-size: 16px;
         }
-        .download-btn:hover {
-            background-color: #f0f0f0; /* Cor de fundo leve ao passar o mouse */
+        button:hover {
+            background-color: #45a049;
+        }
+        .message {
+            margin-top: 20px;
+            font-size: 14px;
         }
     </style>
 </head>
 <body>
-    <div>
-        <h1>Dowinsta</h1>
-        <p class="description">Olá, eu me chamo Dalati Lacerda e sou o criador deste projeto. Baixe vídeos do Instagram sem marca d'água de forma gratuita.</p>
-        <div class="input-container">
-            <label for="video-url">Cole o URL do vídeo aqui:</label>
-            <input type="text" id="video-url" name="video-url" placeholder="https://www.instagram.com/p/CCfeQV-AssF/">
-        </div>
-        <button class="download-btn" onclick="baixarVideo()">Baixar Vídeo</button>
+    <div class="container">
+        <h1>Baixar Vídeo do Instagram</h1>
+        <p>Cole o URL do vídeo do Instagram abaixo:</p>
+        <input type="text" id="video-url" placeholder="https://www.instagram.com/p/CCfeQV-AssF/">
+        <button onclick="baixarVideo()">Baixar</button>
+        <p class="message" id="status-message"></p>
     </div>
 
     <script>
         function baixarVideo() {
-            var url = document.getElementById('video-url').value;
-            if (!url.trim()) {
+            var url = document.getElementById('video-url').value.trim();
+            if (!url) {
                 alert('Por favor, informe o URL do vídeo do Instagram.');
                 return;
             }
 
-            // Fazer requisição para baixar o vídeo usando XMLHttpRequest
+            // Fazer requisição para o servidor Python
             var xhttp = new XMLHttpRequest();
             xhttp.onreadystatechange = function() {
                 if (this.readyState == 4) {
                     if (this.status == 200) {
-                        alert('Download do vídeo concluído.');
+                        document.getElementById('status-message').textContent = 'Download do vídeo concluído.';
                     } else {
-                        alert('Erro ao baixar o vídeo.');
+                        document.getElementById('status-message').textContent = 'Erro ao baixar o vídeo.';
                     }
                 }
             };
-            xhttp.open('POST', 'http://localhost:5000/download', true);
+            xhttp.open('POST', 'https://seu-servidor-python/download', true);
             xhttp.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
             xhttp.send('videoUrl=' + encodeURIComponent(url));
         }
