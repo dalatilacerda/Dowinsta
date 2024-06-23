@@ -67,43 +67,31 @@
         <p class="description">Olá, eu me chamo Dalati Lacerda e sou o criador deste projeto. Baixe vídeos do Instagram sem marca d'água de forma gratuita.</p>
         <div class="input-container">
             <label for="video-url">Cole o URL do vídeo aqui:</label>
-            <input type="text" id="video-url" name="video-url" placeholder="https://www.instagram.com/video-url">
+            <input type="text" id="video-url" name="video-url" placeholder="https://www.instagram.com/p/CCfeQV-AssF/">
         </div>
-        <button class="download-btn" onclick="downloadVideo()">Fazer download</button>
+        <button class="download-btn" onclick="baixarVideo()">Baixar Vídeo</button>
     </div>
 
     <script>
-        function downloadVideo() {
-            // Simulação de download de um vídeo local
-            var videoUrl = 'https://www.example.com/video.mp4';
+        function baixarVideo() {
+            var url = document.getElementById('video-url').value;
+            if (!url.trim()) {
+                alert('Por favor, informe o URL do vídeo do Instagram.');
+                return;
+            }
 
-            // Cria um link <a> temporário
-            var link = document.createElement('a');
-            link.style.display = 'none';
-            document.body.appendChild(link);
-
-            // Faz uma requisição GET para o URL do vídeo usando Fetch API (simulado)
-            fetch(videoUrl)
-                .then(response => response.blob())
-                .then(blob => {
-                    // Cria um objeto URL temporário para o blob
-                    var blobUrl = window.URL.createObjectURL(blob);
-
-                    // Define os atributos do link <a>
-                    link.href = blobUrl;
-                    link.download = 'video_instagram.mp4'; // Nome do arquivo a ser baixado
-                    link.click();
-
-                    // Libera o objeto URL temporário
-                    window.URL.revokeObjectURL(blobUrl);
-                })
-                .catch(error => {
-                    console.error('Erro ao baixar o vídeo:', error);
-                    alert('Ocorreu um erro ao tentar baixar o vídeo.');
-                });
-
-            // Remove o link <a> temporário do documento
-            document.body.removeChild(link);
+            // Fazer requisição para baixar o vídeo usando o código Python no servidor
+            var xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    alert('Download do vídeo concluído.');
+                } else if (this.readyState == 4 && this.status != 200) {
+                    alert('Erro ao baixar o vídeo.');
+                }
+            };
+            xhttp.open('POST', '/download', true);
+            xhttp.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+            xhttp.send('videoUrl=' + encodeURIComponent(url));
         }
     </script>
 </body>
