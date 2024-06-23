@@ -1,8 +1,7 @@
-import instaloader
 from flask import Flask, request, jsonify
-import os
-import sys
+import instaloader
 import re
+import os
 
 app = Flask(__name__)
 
@@ -13,7 +12,7 @@ def download_video():
     if not video_url:
         return jsonify({'error': 'URL do vídeo não foi fornecido'}), 400
 
-    # Diretório de download
+    # Diretório de download (ajuste conforme necessário)
     download_dir = '/caminho/para/seu/diretorio/de/download'
     os.chdir(download_dir)
 
@@ -46,4 +45,3 @@ def download_video():
 
 if __name__ == '__main__':
     app.run(debug=True)
-                                                                               
